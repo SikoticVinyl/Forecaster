@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <title>Forecaster</title>
@@ -7,8 +8,29 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <h1>Forecaster</h1>
-        <nav>Current Location, Home, saved</nav>
+        <header>
+            <h1>Forecaster</h1>
+        </header>
+        <section>
+            <input class="cityS" type="search" placeholder="Search a city">
+            <button class="searchBtn">Search</button>
+            <ul class="savedCity"></ul>
+        </section>
+        <section class="searchedCity">
+            <p>Searched City Name Here</p>
+            <ul>
+                <li>Temp:</li>
+                <li>Wind:</li>
+                <li>Humidity:</li>
+            </ul>
+        </section>
+        <section class="fiveDay">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </section>
         
         <script src="/assets/js/"></script>
     </body>
