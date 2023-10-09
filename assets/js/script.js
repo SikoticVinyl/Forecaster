@@ -8,11 +8,14 @@ const userInput = document.querySelector(".cityS");
 
 const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
 
+//declarations for geo API
 let cityName="Sandy"
 let lat=""
 let lon=""
-
-let weatherData=""
+//declarations for weather API
+let temp=""
+let wind=""
+let humid=""
 
 function searchCity(){
 
@@ -46,7 +49,7 @@ function searchCity(){
 
 function getWeather() {
     
-    const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
     
     fetch(url)
     
@@ -59,8 +62,12 @@ function getWeather() {
         console.log('Weather Response: ',data);
 
         if(data) {
-            weatherData=data[1].city
-            console.log("Weather Data: ", weatherData);
+            temp=data.list[0].main.temp;
+            wind=data.list[0].main.humidity;
+            humid=data.list[0].wind.speed;
+            console.log("Temp: ", temp);
+            console.log("wind: ", wind);
+            console.log("humid: ", humid);
         }
     })
     .catch(error => {
