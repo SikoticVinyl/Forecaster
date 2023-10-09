@@ -3,37 +3,99 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Forecaster</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://cdn.tailwindcss.com"></script>
-    </head>
+    <title>Forecaster</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
     <body>
         <header>
             <h1>Forecaster</h1>
         </header>
-        <section>
-            <input class="cityS" type="search" placeholder="Search a city">
-            <button class="searchBtn">Search</button>
-            <ul class="savedCity"></ul>
-        </section>
+
         <section class="searchedCity">
             <p id="cCity" placeholder="Search a city to get weather!"></p>
             <ul>
-                <li id="cTemp"></li>
-                <li id="cWind"></li>
-                <li id="cHumid"></li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
             </ul>
         </section>
-        <section class="fiveDay">
-            <div>
-                <img class="weatherIcon" id="weatherIcon" src="" alt="Weather Icon">
+        <div class="flex justify-between">
+          <section class="w-1/4 container flex-col justify-center items-center whitespace-pre-line p-4 m-6 border-solid bg-slate-200">
+            <div class="flex justify-center m-0 p-0">
+            <input class="cityS border rounded-md p-2" type="search" placeholder="Search a city">
             </div>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
+            <div class="flex justify-center m-0 p-0">
+            <button class="searchBtn bg-blue-500 text-white p-2 rounded-md mb-4 justify-center ">Search</button>
+            </div>
+            <div class="flex justify-center">
+            <ul class="savedCity flex-col">
+              <button class="mb-2">Save search placeholder</button>
+              <button class="mb-2">Save search placeholder</button>
+              <button class="mb-2">Save search placeholder</button>
+              <button class="mb-2">Save search placeholder</button>
+              <button class="mb-2">Save search placeholder</button>
+            </ul>
+            </div>
+          </section>
+
+          <section class="fiveDay container">
+            <!--<div>
+                <img class="weatherIcon" id="weatherIcon" src="" alt="Weather Icon">
+            </div>-->
+            <div class="flex flex-auto justify-between">
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+
+              <ul>
+                <li>Date</li>
+                <li id="cTemp">temp place</li>
+                <li id="cWind">wind place</li>
+                <li id="cHumid">humid place</li>
+                <li>Icon Space</li>
+              </ul>
+
+            </div>
         </section>
         
+        <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+        <script>dayjs().format()</script>
         <script src="./assets/js/script.js"></script>
     </body>
 </html>
