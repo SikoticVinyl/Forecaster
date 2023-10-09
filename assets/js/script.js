@@ -1,10 +1,12 @@
 // API Key? dd470cbf4f5da7a6f9f1f03c52320e07
 //URL for Fetch: api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
+
 const searchBtn = document.querySelector(".searchBtn");
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
 const userInput = document.querySelector(".cityS");
+const weatherIcon = document.querySelector(".weatherIcon");
 
 const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
 
@@ -16,6 +18,8 @@ let lon=""
 let temp=""
 let wind=""
 let humid=""
+let icon=""
+let id=""
 
 function searchCity(){
 
@@ -65,9 +69,19 @@ function getWeather() {
             temp=data.list[0].main.temp;
             wind=data.list[0].main.humidity;
             humid=data.list[0].wind.speed;
+            icon=data.list[0].weather[0].icon;
+            id=data.list[0].weather[0].id;
+
+            const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+            weatherIcon.src = iconUrl;
+
             console.log("Temp: ", temp);
             console.log("wind: ", wind);
             console.log("humid: ", humid);
+            console.log("Icon: ", icon);
+            console.log("ID: ", id);
+            console.log("weatherIcon src: ", weatherIcon.src);
+
         }
     })
     .catch(error => {
