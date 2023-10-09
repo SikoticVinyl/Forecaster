@@ -1,6 +1,3 @@
-// API Key? dd470cbf4f5da7a6f9f1f03c52320e07
-//URL for Fetch: api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
-
 const searchBtn = document.querySelector(".searchBtn");
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
@@ -8,10 +5,17 @@ const nowWeather = document.querySelector(".searchedCity");
 const userInput = document.querySelector(".cityS");
 const weatherIcon = document.querySelector(".weatherIcon");
 
+//declarations to display info
+const cCity = document.querySelector("#cCity");
+const cTemp= document.querySelector("#cTemp");
+const cWind= document.querySelector("#cWind");
+const cHumid= document.querySelector("#cHumid");
+
 const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
 
 //declarations for geo API
-let cityName="Sandy"
+// let cityName="Sandy" (test)
+let cityName=""
 let lat=""
 let lon=""
 //declarations for weather API
@@ -23,7 +27,8 @@ let id=""
 
 function searchCity(){
 
-    //cityName=userInput.value; //sets the user input to the city name
+    cityName=userInput.value; //sets the user input to the city name
+    cCity.textContent=cityName
 
     const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
     console.log("URL: ", gUrl);
@@ -75,6 +80,10 @@ function getWeather() {
             const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
             weatherIcon.src = iconUrl;
 
+            cTemp.innerHTML= `Temp: ${temp} °F`;
+            cWind.innerHTML= `Wind Speed: ${wind}mph`;
+            cHumid.innerHTML= `Humidity: ${humid}%`;
+
             console.log("Temp: ", temp);
             console.log("wind: ", wind);
             console.log("humid: ", humid);
@@ -89,13 +98,14 @@ function getWeather() {
     });
 }
 
-//searchBtn.addEventListener('click', function (){
-function logs(){
+//commented out code below used to test
+searchBtn.addEventListener('click', function (){
+//function logs(){
     console.log("Button clicked");
     console.log("Input: ", cityName);
     searchCity()
     setTimeout(getWeather, 1000);
 }
-//);
+);
 
-logs();
+//logs();
