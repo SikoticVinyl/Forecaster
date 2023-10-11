@@ -1,20 +1,23 @@
-const searchBtn = document.querySelector(".searchBtn");
+//global declarations
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
-const userInput = document.querySelector(".cityS");
-const weatherIcon = document.querySelector(".weatherIcon");
+
+//Search Declarations
+const searchBtnNav = document.querySelector('#searchBtnNav');
+const searchBtnLg = document.querySelector('#searchBtnLG');
+const userInputNav = document.querySelector('#citySNav');
+const userInputLg = document.querySelector('#citySLG');
 
 //declarations to display info
 const cCity = document.querySelector("#cCity");
-const cTemp= document.querySelector("#cTemp");
-const cWind= document.querySelector("#cWind");
-const cHumid= document.querySelector("#cHumid");
+const cTemp= document.querySelector(".cTemp");
+const cWind= document.querySelector(".cWind");
+const cHumid= document.querySelector(".cHumid");
 
 const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
 
 //declarations for geo API
-// let cityName="Sandy" (test)
 let cityName=""
 let lat=""
 let lon=""
@@ -25,10 +28,21 @@ let humid=""
 let icon=""
 let id=""
 
+//dayJS Declarations
+const today=dayjs().format('MM/DD/YYYY')
+
 function searchCity(){
 
-    cityName=userInput.value; //sets the user input to the city name
-    cCity.textContent=cityName
+    //Because of the two search bars for the styling had to plug them in as one or the other.
+    if (userInputNav.value) {
+        cityName = userInputNav.value;
+    } else if (userInputLg.value) {
+        cityName = userInputLg.value;
+    }
+    console.log('User city name: ', cityName);
+
+    cCity.textContent = cityName + "  " + today
+
 
     const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
     console.log("URL: ", gUrl);
@@ -59,6 +73,7 @@ function searchCity(){
 function getWeather() {
     
     const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
+    const weatherIcon = document.querySelector(".weatherIcon");
     
     fetch(url)
     
@@ -71,6 +86,9 @@ function getWeather() {
         console.log('Weather Response: ',data);
 
         if(data) {
+            const dailyForecast = data.list.slice(0, 6);
+
+            //Displays today's weather
             temp=data.list[0].main.temp;
             wind=data.list[0].main.humidity;
             humid=data.list[0].wind.speed;
@@ -78,11 +96,11 @@ function getWeather() {
             id=data.list[0].weather[0].id;
 
             const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
-            weatherIcon.src = iconUrl;
 
             cTemp.innerHTML= `Temp: ${temp} °F`;
             cWind.innerHTML= `Wind Speed: ${wind}mph`;
             cHumid.innerHTML= `Humidity: ${humid}%`;
+            weatherIcon.src = iconUrl;
 
             console.log("Temp: ", temp);
             console.log("wind: ", wind);
@@ -91,6 +109,8 @@ function getWeather() {
             console.log("ID: ", id);
             console.log("weatherIcon src: ", weatherIcon.src);
 
+
+
         }
     })
     .catch(error => {
@@ -98,14 +118,22 @@ function getWeather() {
     });
 }
 
-//commented out code below used to test
-searchBtn.addEventListener('click', function (){
-//function logs(){
+
+searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
-    console.log("Input: ", cityName);
+    nowWeather.classList.remove("hidden");
+    fiveDay.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
 }
 );
 
+searchBtnLg.addEventListener('click', function (){
+    console.log("Button clicked");
+    nowWeather.classList.remove("hidden");
+    fiveDay.classList.remove("hidden");
+    searchCity()
+    setTimeout(getWeather, 1000);
+}
+);
 //logs();
