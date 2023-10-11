@@ -118,6 +118,8 @@ function getWeather() {
 
 searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
+    nowWeather.classList.remove("hidden");
+    fiveDay.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
 }
@@ -125,6 +127,8 @@ searchBtnNav.addEventListener('click', function (){
 
 searchBtnLg.addEventListener('click', function (){
     console.log("Button clicked");
+    nowWeather.classList.remove("hidden");
+    fiveDay.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
 }
