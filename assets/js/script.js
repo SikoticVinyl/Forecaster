@@ -2,7 +2,6 @@
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
-const weatherIcon = document.querySelector(".weatherIcon");
 
 //Search Declarations
 const searchBtnNav = document.querySelector('#searchBtnNav');
@@ -74,6 +73,7 @@ function searchCity(){
 function getWeather() {
     
     const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
+    const weatherIcon = document.querySelector(".weatherIcon");
     
     fetch(url)
     
@@ -86,6 +86,9 @@ function getWeather() {
         console.log('Weather Response: ',data);
 
         if(data) {
+            const dailyForecast = data.list.slice(0, 6);
+
+            //Displays today's weather
             temp=data.list[0].main.temp;
             wind=data.list[0].main.humidity;
             humid=data.list[0].wind.speed;
@@ -93,11 +96,11 @@ function getWeather() {
             id=data.list[0].weather[0].id;
 
             const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
-            weatherIcon.src = iconUrl;
 
             cTemp.innerHTML= `Temp: ${temp} °F`;
             cWind.innerHTML= `Wind Speed: ${wind}mph`;
             cHumid.innerHTML= `Humidity: ${humid}%`;
+            weatherIcon.src = iconUrl;
 
             console.log("Temp: ", temp);
             console.log("wind: ", wind);
