@@ -43,7 +43,8 @@ function searchCity(){
     }
     console.log('User city name: ', cityName);
 
-    cCity.textContent = cityName;
+    cCity.textContent = cityName + "  " + today
+
 
     const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
     console.log("URL: ", gUrl);
