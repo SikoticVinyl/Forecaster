@@ -12,14 +12,13 @@ const userInputLg = document.querySelector('#citySLG');
 
 //declarations to display info
 const cCity = document.querySelector("#cCity");
-const cTemp= document.querySelector("#cTemp");
-const cWind= document.querySelector("#cWind");
-const cHumid= document.querySelector("#cHumid");
+const cTemp= document.querySelector(".cTemp");
+const cWind= document.querySelector(".cWind");
+const cHumid= document.querySelector(".cHumid");
 
 const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
 
 //declarations for geo API
-// let cityName="Sandy" (test)
 let cityName=""
 let lat=""
 let lon=""
@@ -106,6 +105,8 @@ function getWeather() {
             console.log("Icon: ", icon);
             console.log("ID: ", id);
             console.log("weatherIcon src: ", weatherIcon.src);
+
+
 
         }
     })
