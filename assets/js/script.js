@@ -1,9 +1,14 @@
-const searchBtn = document.querySelector(".searchBtn");
+//global declarations
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
-const userInput = document.querySelector(".cityS");
 const weatherIcon = document.querySelector(".weatherIcon");
+
+//Search Declarations
+const searchBtnNav = document.querySelector('#searchBtnNav');
+const searchBtnLg = document.querySelector('#searchBtnLG');
+const userInputNav = document.querySelector('#citySNav');
+const userInputLg = document.querySelector('#citySLG');
 
 //declarations to display info
 const cCity = document.querySelector("#cCity");
@@ -25,10 +30,20 @@ let humid=""
 let icon=""
 let id=""
 
+//dayJS Declarations
+const today=dayjs().format('MM/DD/YYYY')
+
 function searchCity(){
 
-    cityName=userInput.value; //sets the user input to the city name
-    cCity.textContent=cityName
+    //Because of the two search bars for the styling had to plug them in as one or the other.
+    if (userInputNav.value) {
+        cityName = userInputNav.value;
+    } else if (userInputLg.value) {
+        cityName = userInputLg.value;
+    }
+    console.log('User city name: ', cityName);
+
+    cCity.textContent = cityName;
 
     const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
     console.log("URL: ", gUrl);
@@ -98,14 +113,18 @@ function getWeather() {
     });
 }
 
-//commented out code below used to test
-searchBtn.addEventListener('click', function (){
-//function logs(){
+
+searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
-    console.log("Input: ", cityName);
     searchCity()
     setTimeout(getWeather, 1000);
 }
 );
 
+searchBtnLg.addEventListener('click', function (){
+    console.log("Button clicked");
+    searchCity()
+    setTimeout(getWeather, 1000);
+}
+);
 //logs();

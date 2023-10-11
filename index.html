@@ -11,8 +11,8 @@
         <div class="flex justify-center items-center">
             <h1 class="text-2xl text-slate-700">Forecaster</h1>
             <div class="lg:hidden ml-auto">
-                <input class="cityS border rounded-md p-2" type="search" placeholder="Search a city">
-                <button class="searchBtn bg-blue-500 text-white p-2 rounded-md lg:w-1/4">Search</button>
+                <input id="citySNav" class="border rounded-md p-2" type="search" placeholder="Search a city">
+                <button id="searchBtnNav" class="bg-blue-500 text-white p-2 rounded-md lg:w-1/4">Search</button>
             </div>
         </div>
     </header>
@@ -21,8 +21,8 @@
         <section class="lg:w-1/4 p-4 border-r border-slate-300">
             <div class="mb-4">
                 <div class="hidden lg:flex flex-col">
-                    <input class="cityS border rounded-md p-2" type="search" placeholder="Search a city">
-                    <button class="searchBtn bg-blue-500 text-white p-2 rounded-md mb-4 w-auto">Search</button>
+                    <input id="citySLG" class=" border rounded-md p-2" type="search" placeholder="Search a city">
+                    <button id="searchBtnLG" class="bg-blue-500 text-white p-2 rounded-md mb-4 w-auto">Search</button>
                 </div>
             </div>
         </section>
@@ -30,7 +30,7 @@
         <div class="w-full lg:w-3/4 p-4">
     <section class="searchedCity border p-4 mb-4">
         <div class="flex flex-col items-center space-y-4">
-            <p id="cCity" class="text-2xl">Searched City</p>
+            <p id="cCity" class="text-2xl"></p>
             <ul class="flex space-x-4">
                 <li>Temp:</li>
                 <li>Wind:</li>
