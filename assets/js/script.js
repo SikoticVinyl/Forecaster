@@ -30,7 +30,11 @@ let tIcon=""
 let tId=""
 
 //dayJS Declarations
+const navTime=document.querySelector(".time");
 const today=dayjs().format('MM/DD/YYYY')
+const time=dayjs().format('hh:mm a')
+
+navTime.innerHTML=time;
 
 function searchCity(){
 
