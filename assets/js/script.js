@@ -122,8 +122,11 @@ function getWeather() {
 }
 
 function storeInfo(){
-    let currentInfo=["tTemp","tWind","tHumid","tId"]
+    let currentInfo=[ cityName,tTemp,tWind,tHumid,tId];
     console.log("to Storage: ", currentInfo);
+
+    let infoString = JSON.stringify(currentInfo) 
+        localStorage.setItem("cInfo", infoString)
 
 }
 
@@ -134,6 +137,7 @@ searchBtnNav.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
 
@@ -144,6 +148,7 @@ searchBtnLg.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
 //logs();
