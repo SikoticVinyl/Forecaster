@@ -121,13 +121,36 @@ function getWeather() {
     });
 }
 
-function storeInfo(){
-    let currentInfo=[ cityName,tTemp,tWind,tHumid,tId];
-    console.log("to Storage: ", currentInfo);
+function storeInfo() {
+    // Create an array to hold the stored information
+    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
 
-    let infoString = JSON.stringify(currentInfo) 
-        localStorage.setItem("cInfo", infoString)
+    // Create an object to store the current information
+    let currentInfo = {
+        cityName: cityName,
+        temperature: tTemp,
+        windSpeed: tWind,
+        humidity: tHumid,
+        weatherId: tId
+    };
 
+    // Push the current information object into the array
+    storedInfoArray.push(currentInfo);
+
+    // Store the updated array in local storage
+    localStorage.setItem("cInfo", JSON.stringify(storedInfoArray));
+}
+
+function getStoredInfo() {
+    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
+
+    for (let i = 0; i < storedInfoArray.length; i++) {
+        console.log("City Name:", storedInfoArray[i].cityName);
+        console.log("Temperature:", storedInfoArray[i].temperature);
+        console.log("Wind Speed:", storedInfoArray[i].windSpeed);
+        console.log("Humidity:", storedInfoArray[i].humidity);
+        console.log("Weather ID:", storedInfoArray[i].weatherId);
+    }
 }
 
 searchBtnNav.addEventListener('click', function (){
