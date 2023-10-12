@@ -113,9 +113,7 @@ function getWeather() {
             console.log("Icon: ", tIcon);
             console.log("ID: ", tId);
             console.log("weatherIcon src: ", weatherIcon.src);
-
-
-
+        
         }
     })
     .catch(error => {
@@ -123,6 +121,11 @@ function getWeather() {
     });
 }
 
+function storeInfo(){
+    let currentInfo=["tTemp","tWind","tHumid","tId"]
+    console.log("to Storage: ", currentInfo);
+
+}
 
 searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
