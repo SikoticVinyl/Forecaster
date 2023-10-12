@@ -174,4 +174,6 @@ searchBtnLg.addEventListener('click', function (){
     setTimeout(storeInfo, 2000);
 }
 );
-//logs();
+
+//localStorage.clear();
+//Used to clear storage for ease of working with code.
