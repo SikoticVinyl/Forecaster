@@ -1,4 +1,5 @@
 //global declarations
+const recents = document.querySelector('.recents');
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
@@ -22,14 +23,18 @@ let cityName=""
 let lat=""
 let lon=""
 //declarations for weather API
-let temp=""
-let wind=""
-let humid=""
-let icon=""
-let id=""
+let tTemp=""
+let tWind=""
+let tHumid=""
+let tIcon=""
+let tId=""
 
 //dayJS Declarations
+const navTime=document.querySelector(".time");
 const today=dayjs().format('MM/DD/YYYY')
+const time=dayjs().format('hh:mm a')
+
+navTime.innerHTML=time;
 
 function searchCity(){
 
@@ -89,28 +94,26 @@ function getWeather() {
             const dailyForecast = data.list.slice(0, 6);
 
             //Displays today's weather
-            temp=data.list[0].main.temp;
-            wind=data.list[0].main.humidity;
-            humid=data.list[0].wind.speed;
-            icon=data.list[0].weather[0].icon;
-            id=data.list[0].weather[0].id;
+            tTemp=data.list[0].main.temp;
+            tWind=data.list[0].main.humidity;
+            tHumid=data.list[0].wind.speed;
+            tIcon=data.list[0].weather[0].icon;
+            tId=data.list[0].weather[0].id;
 
-            const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+            //const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
 
-            cTemp.innerHTML= `Temp: ${temp} °F`;
-            cWind.innerHTML= `Wind Speed: ${wind}mph`;
-            cHumid.innerHTML= `Humidity: ${humid}%`;
-            weatherIcon.src = iconUrl;
+            cTemp.innerHTML= `Temp: ${tTemp} °F`;
+            cWind.innerHTML= `Wind Speed: ${tWind}mph`;
+            cHumid.innerHTML= `Humidity: ${tHumid}%`;
+            weatherIcon.src = `https://openweathermap.org/img/wn/${tIcon}@2x.png`
 
-            console.log("Temp: ", temp);
-            console.log("wind: ", wind);
-            console.log("humid: ", humid);
-            console.log("Icon: ", icon);
-            console.log("ID: ", id);
+            console.log("Temp: ", tTemp);
+            console.log("wind: ", tWind);
+            console.log("humid: ", tHumid);
+            console.log("Icon: ", tIcon);
+            console.log("ID: ", tId);
             console.log("weatherIcon src: ", weatherIcon.src);
-
-
-
+        
         }
     })
     .catch(error => {
@@ -118,13 +121,46 @@ function getWeather() {
     });
 }
 
+function storeInfo() {
+    // Create an array to hold the stored information
+    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
+
+    // Create an object to store the current information
+    let currentInfo = {
+        cityName: cityName,
+        temperature: tTemp,
+        windSpeed: tWind,
+        humidity: tHumid,
+        weatherId: tId
+    };
+
+    // Push the current information object into the array
+    storedInfoArray.push(currentInfo);
+
+    // Store the updated array in local storage
+    localStorage.setItem("cInfo", JSON.stringify(storedInfoArray));
+}
+
+function getStoredInfo() {
+    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
+
+    for (let i = 0; i < storedInfoArray.length; i++) {
+        console.log("City Name:", storedInfoArray[i].cityName);
+        console.log("Temperature:", storedInfoArray[i].temperature);
+        console.log("Wind Speed:", storedInfoArray[i].windSpeed);
+        console.log("Humidity:", storedInfoArray[i].humidity);
+        console.log("Weather ID:", storedInfoArray[i].weatherId);
+    }
+}
 
 searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
     nowWeather.classList.remove("hidden");
     fiveDay.classList.remove("hidden");
+    recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
 
@@ -132,8 +168,12 @@ searchBtnLg.addEventListener('click', function (){
     console.log("Button clicked");
     nowWeather.classList.remove("hidden");
     fiveDay.classList.remove("hidden");
+    recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
-//logs();
+
+//localStorage.clear();
+//Used to clear storage for ease of working with code.

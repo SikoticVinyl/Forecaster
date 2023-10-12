@@ -8,8 +8,9 @@
 </head>
 <body>
     <header class="py-4">
-        <div class="flex justify-center items-center">
+        <div class="flex justify-center justify-around items-center">
             <h1 class="text-2xl text-slate-700">Forecaster</h1>
+            <p class="time text-2xl text-slate-700"></p>
             <div class="lg:hidden ml-auto">
                 <input id="citySNav" class="border rounded-md p-2" type="search" placeholder="Search a city">
                 <button id="searchBtnNav" class="bg-blue-500 text-white p-2 rounded-md lg:w-1/4">Search</button>
@@ -60,14 +61,10 @@
         </div>
     </div>
 
-    <div class="p-4 lg:hidden text-center">
+    <div class="p-4 lg:hidden hidden recents text-center">
         <div class="border border-slate-500 p-4 rounded-lg mb-4 max-w-sm mx-auto">
-            <h2 class="text-lg font-semibold">Saved Places</h2>
+            <h2 class="text-lg font-semibold">Recent Locations</h2>
             <ul class="savedCity flex-col">
-                <li class="mb-2">Save search placeholder</li>
-                <li class="mb-2">Save search placeholder</li>
-                <li class="mb-2">Save search placeholder</li>
-                <li class="mb-2">Save search placeholder</li>
                 <li class="mb-2">Save search placeholder</li>
             </ul>
         </div>
