@@ -113,13 +113,14 @@ function getWeather() {
             console.log("Icon: ", tIcon);
             console.log("ID: ", tId);
             console.log("weatherIcon src: ", weatherIcon.src);
-        
-        }
-    })
+
+            console.log("Daily Forecast: ", dailyForecast);            
+          }})
     .catch(error => {
         console.error('Fetch error: ', error);
     });
 }
+
 
 function storeInfo() {
     // Create an array to hold the stored information
