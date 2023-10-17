@@ -36,7 +36,7 @@ const time=dayjs().format('hh:mm a')
 
 navTime.innerHTML=time;
 
-function searchCity(){
+function searchCity(){ //This function serves to get the lat and lon of the searched city. 
 
     //Because of the two search bars for the styling had to plug them in as one or the other.
     if (userInputNav.value) {
@@ -75,7 +75,7 @@ function searchCity(){
     });
 };
 
-function getWeather() {
+function getWeather() { //This function takes the lat and lon of the last and uses it to get weather information
     
     const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
     const weatherIcon = document.querySelector(".weatherIcon");
@@ -143,6 +143,7 @@ function storeInfo() {
 }
 
 function getStoredInfo() {
+
     let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
 
     for (let i = 0; i < storedInfoArray.length; i++) {
@@ -154,6 +155,7 @@ function getStoredInfo() {
     }
 }
 
+//Search button for display in the nav bar
 searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
     nowWeather.classList.remove("hidden");
@@ -165,6 +167,7 @@ searchBtnNav.addEventListener('click', function (){
 }
 );
 
+//Search Button for display on regular / large screens
 searchBtnLg.addEventListener('click', function (){
     console.log("Button clicked");
     nowWeather.classList.remove("hidden");
