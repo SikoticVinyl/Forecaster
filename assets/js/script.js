@@ -61,7 +61,7 @@ function searchCity(){ //This function serves to get the lat and lon of the sear
             return response.json();
     })
     .then(data => {
-        console.log('API Response Data:', data);
+        console.log('API Response Data Location:', data);
 
         if (data) {
             lat=data[0].lat
@@ -91,7 +91,7 @@ function getWeather() { //This function takes the lat and lon of the last and us
         console.log('Weather Response: ',data);
 
         if(data) {
-            const dailyForecast = data.list.slice(0, 6);
+            const dailyForecast = data.list.slice(0,40);
 
             //Displays today's weather
             tTemp=data.list[0].main.temp;
@@ -112,9 +112,21 @@ function getWeather() { //This function takes the lat and lon of the last and us
             console.log("humid: ", tHumid);
             console.log("Icon: ", tIcon);
             console.log("ID: ", tId);
-            console.log("weatherIcon src: ", weatherIcon.src);
+            console.log("weatherIcon src: ", weatherIcon.src);  
+            console.log("Daily Forecast: ", dailyForecast); 
+            
+            //Five Day weather Code
 
-            console.log("Daily Forecast: ", dailyForecast);            
+            const bundleSize = 8;
+            const bundledForecasts = [];
+            
+            for (let i = 0; i < dailyForecast.length; i += bundleSize) {
+                if (bundledForecasts.length < 5) {
+                    bundledForecasts.push(dailyForecast.slice(i, i + bundleSize));
+                }
+            }
+
+            console.log('Bundled Forecasts: ', bundledForecasts);
           }})
     .catch(error => {
         console.error('Fetch error: ', error);
