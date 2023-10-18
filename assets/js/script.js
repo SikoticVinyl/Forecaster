@@ -117,7 +117,8 @@ function getWeather() { //This function takes the lat and lon of the last and us
             
             //Five Day weather Code
 
-            const bundleSize = 8;
+            //Organizing data into bundles by day
+            const bundleSize = 8; 
             const bundledForecasts = [];
             
             for (let i = 0; i < dailyForecast.length; i += bundleSize) {
@@ -125,6 +126,32 @@ function getWeather() { //This function takes the lat and lon of the last and us
                     bundledForecasts.push(dailyForecast.slice(i, i + bundleSize));
                 }
             }
+
+            //setting variables for each day.
+            aTemp=
+            aWind=
+            aHumid=
+            aId=
+
+            bTemp=
+            bWind=
+            bHumid=
+            bId=
+
+            cTemp=
+            cWind=
+            cHumid=
+            cId=
+
+            dTemp=
+            dWind=
+            dHumid=
+            dId=
+
+            eTemp=
+            eWind=
+            eHumid=
+            eId=
 
             console.log('Bundled Forecasts: ', bundledForecasts);
           }})
