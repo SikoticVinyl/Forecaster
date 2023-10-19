@@ -128,31 +128,32 @@ function getWeather() { //This function takes the lat and lon of the last and us
             }
 
             //setting variables for each day.
-            aTemp=
-            aWind=
-            aHumid=
-            aId=
+            aTemp=bundledForecasts[0][0].main.temp;
+            aWind=''
+            aHumid=''
+            aId=''
 
-            bTemp=
-            bWind=
-            bHumid=
-            bId=
+            bTemp=bundledForecasts[1][0].main.temp;
+            bWind=''
+            bHumid=''
+            bId=''
 
-            cTemp=
-            cWind=
-            cHumid=
-            cId=
+            fTemp=''
+            fWind=''
+            fHumid=''
+            fId=''
 
-            dTemp=
-            dWind=
-            dHumid=
-            dId=
+            dTemp=''
+            dWind=''
+            dHumid=''
+            dId=''
 
-            eTemp=
-            eWind=
-            eHumid=
-            eId=
+            eTemp=''
+            eWind=''
+            eHumid=''
+            eId=''
 
+            console.log("Drive: ", aTemp, " and ", bTemp);
             console.log('Bundled Forecasts: ', bundledForecasts);
           }})
     .catch(error => {
