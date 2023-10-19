@@ -91,7 +91,7 @@ function getWeather() { //This function takes the lat and lon of the last and us
         console.log('Weather Response: ',data);
 
         if(data) {
-            const dailyForecast = data.list.slice(0,40);
+            const dailyForecast = data.list.slice(0,48);
 
             //Displays today's weather
             tTemp=data.list[0].main.temp;
@@ -122,38 +122,40 @@ function getWeather() { //This function takes the lat and lon of the last and us
             const bundledForecasts = [];
             
             for (let i = 0; i < dailyForecast.length; i += bundleSize) {
-                if (bundledForecasts.length < 5) {
+                if (bundledForecasts.length < 6) {
                     bundledForecasts.push(dailyForecast.slice(i, i + bundleSize));
                 }
             }
 
             //setting variables for each day.
-            aTemp=bundledForecasts[0][0].main.temp;
-            aWind=''
-            aHumid=''
-            aId=''
+            aTemp=bundledForecasts[1][0].main.temp;
+            aWind=bundledForecasts[1][0].wind.speed
+            aHumid=bundledForecasts[1][0].main.humidity;
+            aIcon=bundledForecasts[1][0].weather[0].icon;
+            
 
-            bTemp=bundledForecasts[1][0].main.temp;
-            bWind=''
-            bHumid=''
-            bId=''
+            bTemp=bundledForecasts[2][0].main.temp;
+            bWind=bundledForecasts[2][0].wind.speed
+            bHumid=bundledForecasts[2][0].main.humidity;
+            bIcon=bundledForecasts[2][0].weather[0].icon;
 
-            fTemp=''
-            fWind=''
-            fHumid=''
-            fId=''
+            fTemp=bundledForecasts[3][0].main.temp;
+            fWind=bundledForecasts[3][0].wind.speed;
+            fHumid=bundledForecasts[3][0].main.humidity;
+            fIcon=bundledForecasts[3][0].weather[0].icon;
 
-            dTemp=''
-            dWind=''
-            dHumid=''
-            dId=''
+            dTemp=bundledForecasts[4][0].main.temp;
+            dWind=bundledForecasts[4][0].wind.speed;
+            dHumid=bundledForecasts[4][0].main.humidity;
+            dIcon=bundledForecasts[4][0].weather[0].icon;
 
-            eTemp=''
-            eWind=''
-            eHumid=''
-            eId=''
+            eTemp=bundledForecasts[5][0].main.temp;
+            eWind=bundledForecasts[5][0].wind.speed
+            eHumid=bundledForecasts[5][0].main.humidity;
+            eIcon=bundledForecasts[5][0].weather[0].icon;
 
-            console.log("Drive: ", aTemp, " and ", bTemp);
+            console.log("Drive: ", aWind);
+            console.log("Icon src: ", weatherIcon.src);
             console.log('Bundled Forecasts: ', bundledForecasts);
           }})
     .catch(error => {
