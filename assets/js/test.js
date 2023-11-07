@@ -65,18 +65,21 @@ function searchCity() {
         });
 }
 
-let groupedForecasts={}; //Brings groupedForecasts to global scope to be used by next functions.
 //This function takes the lat and lon of the last and uses it to get weather information
 function getWeather() {
     const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
+    const weatherIcon = document.querySelector(".weatherIcon");
+
     fetch(url)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Network response was not ok.');
+                throw Error('Network response was not ok.');
             }
             return response.json();
         })
         .then(data => {
+            console.log('Weather Response: ', data);
+
             if (data) {
                 const dailyForecast = data.list;
 
@@ -104,9 +107,35 @@ function getWeather() {
                     const nextDateString = nextDate.toISOString().split('T')[0];
 
                     if (groupedForecasts[nextDateString]) {
-                        const forecastsForDate = groupedForecasts[nextDateString];
-                        //ForecastsForDate contains all the forecasts for the specified date.
-                        console.log('Forecasts for next date:', forecastsForDate);
+                        const dayForecast = groupedForecasts[nextDateString][0];
+                        const dayWeatherIcon = dayForecast.weather[0].icon;
+                        const containerId = i === 0 ? "todayWeather" : `Day${i}`;
+                        
+                        // Create a list for the weather details
+                        const ul = document.createElement("ul");
+                        const temperature = dayForecast.main.temp;
+                        const windSpeed = dayForecast.wind.speed;
+                        const humidity = dayForecast.main.humidity;
+                        const weatherIcon = dayForecast.weather[0].icon;
+
+                        // Define details to display
+                        const details = [
+                            { label: "Temperature", value: `${temperature} °F` },
+                            { label: "Wind Speed", value: `${windSpeed} mph` },
+                            { label: "Humidity", value: `${humidity}%` },
+                            { label: "Icon", value: `<img src="http://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">` },
+                        ];
+
+                        // Append details to the list
+                        details.forEach(item => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${item.label}:</strong> ${item.value}`;
+                            ul.appendChild(li);
+                        });
+
+                        // Append the list to the specified container
+                        document.querySelector(`#${containerId}`).innerHTML = `<img src="http://openweathermap.org/img/w/${dayWeatherIcon}.png" alt="Day ${i} Weather Icon">`;
+                        document.querySelector(`#${containerId}`).appendChild(ul);
                     }
                 }
             }
@@ -114,39 +143,7 @@ function getWeather() {
         .catch(error => {
             console.error('Fetch error: ', error);
         });
-}
-
-function displayWeatherInfo(groupedForecasts) {
-    // Get today's date
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const todayString = today.toISOString().split('T')[0];
-
-    // Define an array to store the next five dates
-    const nextFiveDays = [];
-
-    // Iterate over the next five days and push them to the "nextFiveDays" array
-    for (let i = 1; i <= 5; i++) {
-        const nextDate = new Date(today);
-        nextDate.setDate(today.getDate() + i);
-        const nextDateString = nextDate.toISOString().split('T')[0];
-        nextFiveDays.push(nextDateString);
-    }
-
-    // Display today's weather in the "todayWeather" section
-    if (groupedForecasts[todayString] && groupedForecasts[todayString].length > 0) {
-        const todayWeather = groupedForecasts[todayString][0]; // Assuming the first entry is for today's weather
-        displayWeather(todayWeather, 'todayWeather');
-    }
-
-    // Display the next five days' weather
-    nextFiveDays.forEach((date, index) => {
-        if (groupedForecasts[date] && groupedForecasts[date].length > 0) {
-            const nextDayWeather = groupedForecasts[date][0]; // Assuming the first entry is for the next day
-            displayWeather(nextDayWeather, `Day ${index + 1}`);
-        }
-    });
-}
+};
 
 
 function storeInfo() {
