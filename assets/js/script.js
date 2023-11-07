@@ -41,7 +41,7 @@ function searchCity() {
 
     cCity.textContent = cityName + "  " + today;
 
-    const gUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+    const gUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
     fetch(gUrl)
         .then(response => {
             if (!response.ok) {
@@ -62,7 +62,7 @@ function searchCity() {
 
 //This function takes the lat and lon of the last and uses it to get weather information
 function getWeather() {
-    const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
+    const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
     const weatherIcon = document.querySelector(".weatherIcon");
 
     fetch(url)
@@ -121,7 +121,7 @@ function getWeather() {
                             { label: "Temp", value: `${temperature} °F` },
                             { label: "Wind", value: `${windSpeed} mph` },
                             { label: "Humidity", value: `${humidity}%` },
-                            { label: " ", value: `<img src="http://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">` },
+                            { label: " ", value: `<img src="https://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">` },
                         ];
 
                         // Append details to the list
