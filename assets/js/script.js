@@ -1,213 +1,146 @@
-//global declarations
+// Global declarations
 const recents = document.querySelector('.recents');
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
 
-//Search Declarations
+// Search Declarations
 const searchBtnNav = document.querySelector('#searchBtnNav');
 const searchBtnLg = document.querySelector('#searchBtnLG');
 const userInputNav = document.querySelector('#citySNav');
 const userInputLg = document.querySelector('#citySLG');
 
-//declarations to display info
+// Declarations to display info
 const cCity = document.querySelector("#cCity");
-const cTemp= document.querySelector(".cTemp");
-const cWind= document.querySelector(".cWind");
-const cHumid= document.querySelector(".cHumid");
+const DayTT = document.querySelector("#DayTT");
+const DayTW = document.querySelector("#DayTW");
+const DayTH = document.querySelector("#DayTH");
 
-const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
+const apiKey = "dd470cbf4f5da7a6f9f1f03c52320e07";
 
-//declarations for geo API
-let cityName=""
-let lat=""
-let lon=""
-//declarations for weather API
-let tTemp=""
-let tWind=""
-let tHumid=""
-let tIcon=""
-let tId=""
+// Declarations for geo API
+let cityName = "";
+let lat = "";
+let lon = "";
 
-//dayJS Declarations
-const navTime=document.querySelector(".time");
-const today=dayjs().format('MM/DD/YYYY')
-const time=dayjs().format('hh:mm a')
 
-navTime.innerHTML=time;
+// dayJS Declarations
+const navTime = document.querySelector(".time");
+const today = dayjs().format('MM/DD/YYYY');
+const time = dayjs().format('hh:mm a');
 
-function searchCity(){ //This function serves to get the lat and lon of the searched city. 
+navTime.innerHTML = time;
 
-    //Because of the two search bars for the styling had to plug them in as one or the other.
+function searchCity() {
+    // Check which input field contains the city name.
     if (userInputNav.value) {
         cityName = userInputNav.value;
     } else if (userInputLg.value) {
         cityName = userInputLg.value;
     }
-    console.log('User city name: ', cityName);
 
-    cCity.textContent = cityName + "  " + today
+    cCity.textContent = cityName + "  " + today;
 
-
-    const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
-    console.log("URL: ", gUrl);
-
-    fetch(gUrl) //The fetch request
-
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok.')
-        }
+    const gUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+    fetch(gUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
             return response.json();
-    })
-    .then(data => {
-        console.log('API Response Data Location:', data);
+        })
+        .then(data => {
+            if (data) {
+                lat = data[0].lat;
+                lon = data[0].lon;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+}
 
-        if (data) {
-            lat=data[0].lat
-            console.log("lat: ", lat);
-            lon=data[0].lon
-            console.log("lon: ", lon);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error: ', error);
-    });
-};
-
-function getWeather() { //This function takes the lat and lon of the last and uses it to get weather information
-    
-    const url=`http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
+//This function takes the lat and lon of the last and uses it to get weather information
+function getWeather() {
+    const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
     const weatherIcon = document.querySelector(".weatherIcon");
-    
+
     fetch(url)
-    
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok.');
-        } return response.json();
-    })
-    .then(data => {
-        console.log('Weather Response: ',data);
+        .then(response => {
+            if (!response.ok) {
+                throw Error('Network response was not ok.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Weather Response: ', data);
 
-        if(data) {
-            const dailyForecast = data.list.slice(0,48);
+            if (data) {
+                const dailyForecast = data.list;
+                console.log("Daily: ", dailyForecast);
 
-            //Displays today's weather
-            tTemp=data.list[0].main.temp;
-            tWind=data.list[0].main.humidity;
-            tHumid=data.list[0].wind.speed;
-            tIcon=data.list[0].weather[0].icon;
-            tId=data.list[0].weather[0].id;
+                // Group data by date
+                const groupedForecasts = {};
+                dailyForecast.forEach(forecast => {
+                    const date = forecast.dt_txt.split(' ')[0]; // Extract date
+                    if (!groupedForecasts[date]) {
+                        groupedForecasts[date] = [];
+                    }
+                    groupedForecasts[date].push(forecast);
+                });
 
-            //const iconUrl = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                console.log('Grouped Forecasts: ', groupedForecasts);
 
-            cTemp.innerHTML= `Temp: ${tTemp} °F`;
-            cWind.innerHTML= `Wind Speed: ${tWind}mph`;
-            cHumid.innerHTML= `Humidity: ${tHumid}%`;
-            weatherIcon.src = `https://openweathermap.org/img/wn/${tIcon}@2x.png`
+                // Get today's date
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const todayString = today.toISOString().split('T')[0];
 
-            console.log("Temp: ", tTemp);
-            console.log("wind: ", tWind);
-            console.log("humid: ", tHumid);
-            console.log("Icon: ", tIcon);
-            console.log("ID: ", tId);
-            console.log("weatherIcon src: ", weatherIcon.src);  
-            console.log("Daily Forecast: ", dailyForecast); 
-            
-            //Five Day weather Code
+                // Iterate over the next five days
+                for (let i = 1; i < 5; i++) {
+                    const nextDate = new Date(today);
+                    nextDate.setDate(today.getDate() + i);
+                    const nextDateString = nextDate.toISOString().split('T')[0];
 
-            //Organizing data into bundles by day
-            const bundleSize = 8; 
-            const bundledForecasts = [];
-            
-            for (let i = 0; i < dailyForecast.length; i += bundleSize) {
-                if (bundledForecasts.length < 6) {
-                    bundledForecasts.push(dailyForecast.slice(i, i + bundleSize));
+                    if (groupedForecasts[nextDateString]) {
+                        const dayForecast = groupedForecasts[nextDateString][0];
+                        const dayWeatherIcon = dayForecast.weather[0].icon;
+                        const containerId = i === 0 ? "todayWeather" : `Day${i}`;
+                        
+                        // Create a list for the weather details
+                        const ul = document.createElement("ul");
+                        const theDate = dayjs(dayForecast.dt_txt).format('MM/DD/YYYY');
+                        const temperature = dayForecast.main.temp;
+                        const windSpeed = dayForecast.wind.speed;
+                        const humidity = dayForecast.main.humidity;
+                        const weatherIcon = dayForecast.weather[0].icon;
+
+                        // Define details to display
+                        const details = [
+                            { label: `${theDate}`, value: ' '},
+                            { label: "Temp", value: `${temperature} °F` },
+                            { label: "Wind", value: `${windSpeed} mph` },
+                            { label: "Humidity", value: `${humidity}%` },
+                            { label: " ", value: `<img src="http://openweathermap.org/img/w/${weatherIcon}.png" alt="Weather Icon">` },
+                        ];
+
+                        // Append details to the list
+                        details.forEach(item => {
+                            const li = document.createElement("li");
+                            li.innerHTML = `<strong>${item.label}:</strong> ${item.value}`;
+                            ul.appendChild(li);
+                        });
+
+                        // Append the list to the specified container
+                        document.querySelector(`#${containerId}`).appendChild(ul);
+                    }
                 }
             }
-
-            //Declarations for the UL's
-            aDay=document.querySelector("#aDay");
-            bDay=document.querySelector("#bDay");
-            fDay=document.querySelector("#fDay");
-            dDay=document.querySelector("#dDay");
-            eDay=document.querySelector("#eDay");
-
-            //setting variables for each day.
-
-            //First Day - aDay
-            aTemp=bundledForecasts[1][0].main.temp;
-            aWind=bundledForecasts[1][0].wind.speed
-            aHumid=bundledForecasts[1][0].main.humidity;
-            aIcon=bundledForecasts[1][0].weather[0].icon;
-            console.log("aDay: Temp: "+aTemp+" Wind: "+aWind+" Humid: "+aHumid);
-
-            
-            //Second day - bDay
-            bTemp=bundledForecasts[2][0].main.temp;
-            bWind=bundledForecasts[2][0].wind.speed
-            bHumid=bundledForecasts[2][0].main.humidity;
-            bIcon=bundledForecasts[2][0].weather[0].icon;
-            console.log("bDay: Temp: "+bTemp+" Wind: "+bWind+" Humid: "+bHumid);
-
-            //Third day - fDay
-            fTemp=bundledForecasts[3][0].main.temp;
-            fWind=bundledForecasts[3][0].wind.speed;
-            fHumid=bundledForecasts[3][0].main.humidity;
-            fIcon=bundledForecasts[3][0].weather[0].icon;
-            console.log("fDay: Temp: "+fTemp+" Wind: "+fWind+" Humid: "+fHumid);
-
-            //Fourth day - dDay
-            dTemp=bundledForecasts[4][0].main.temp;
-            dWind=bundledForecasts[4][0].wind.speed;
-            dHumid=bundledForecasts[4][0].main.humidity;
-            dIcon=bundledForecasts[4][0].weather[0].icon;
-            console.log("dDay: Temp: "+dTemp+" Wind: "+dWind+" Humid: "+dHumid);
-
-            //Fith day - eDay
-            eTemp=bundledForecasts[5][0].main.temp;
-            eWind=bundledForecasts[5][0].wind.speed
-            eHumid=bundledForecasts[5][0].main.humidity;
-            eIcon=bundledForecasts[5][0].weather[0].icon;
-            console.log("eDay: Temp: "+eTemp+" Wind: "+eWind+" Humid: "+eHumid);
-
-            //Applies five day info to each day to show on HTML.
-
-            aTemp.innerHTML= `Temp: ${aTemp} °F`;
-            aWind.innerHTML= `Wind Speed: ${aWind}mph`;
-            aHumid.innerHTML= `Humidity: ${aHumid}%`;
-            aweatherIcon.src = `https://openweathermap.org/img/wn/${aIcon}@2x.png`
-
-            bTemp.innerHTML= `Temp: ${bTemp} °F`;
-            bWind.innerHTML= `Wind Speed: ${bWind}mph`;
-            bHumid.innerHTML= `Humidity: ${bHumid}%`;
-            bweatherIcon.src = `https://openweathermap.org/img/wn/${bIcon}@2x.png`
-
-            fTemp.innerHTML= `Temp: ${fTemp} °F`;
-            fWind.innerHTML= `Wind Speed: ${fWind}mph`;
-            fHumid.innerHTML= `Humidity: ${fHumid}%`;
-            fweatherIcon.src = `https://openweathermap.org/img/wn/${fIcon}@2x.png`
-
-            dTemp.innerHTML= `Temp: ${dTemp} °F`;
-            dWind.innerHTML= `Wind Speed: ${dWind}mph`;
-            dHumid.innerHTML= `Humidity: ${dHumid}%`;
-            dweatherIcon.src = `https://openweathermap.org/img/wn/${dIcon}@2x.png`
-
-            eTemp.innerHTML= `Temp: ${eTemp} °F`;
-            eWind.innerHTML= `Wind Speed: ${eWind}mph`;
-            eHumid.innerHTML= `Humidity: ${eHumid}%`;
-            eweatherIcon.src = `https://openweathermap.org/img/wn/${eIcon}@2x.png`
-
-
-            console.log("Drive: ", aWind);
-            console.log("Icon src: ", weatherIcon.src);
-            console.log('Bundled Forecasts: ', bundledForecasts);
-          }})
-    .catch(error => {
-        console.error('Fetch error: ', error);
-    });
-}
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+};
 
 
 function storeInfo() {

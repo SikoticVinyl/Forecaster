@@ -10,7 +10,7 @@
     <header class="py-4">
         <div class="flex justify-center justify-around items-center">
             <h1 class="text-2xl text-slate-700">Forecaster</h1>
-            <p class="time text-2xl text-slate-700"></p>
+            <p class="time text-2xl text-slate-700 ml-4"></p>
             <div class="lg:hidden ml-auto">
                 <input id="citySNav" class="border rounded-md p-2" type="search" placeholder="Search a city">
                 <button id="searchBtnNav" class="bg-blue-500 text-white p-2 rounded-md lg:w-1/4">Search</button>
@@ -33,7 +33,10 @@
         <div class="flex flex-col items-center space-y-4">
             <p id="cCity" class="text-2xl"></p>
             <img class="weatherIcon" src="" placeholder="icon">
-            <ul id="todayWeather" class="weather-details flex space-x-4">    
+            <ul id="todayWeather" class="weather-details flex space-x-4">
+                <li id="DayTT"></li>
+                <li id="DayTW"></li> 
+                <li id="DayTH"></li>     
             </ul>
         </div>
     </section>
@@ -76,7 +79,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script>dayjs().format()</script>
-    <!--<script src="./assets/js/script.js"></script>-->
-    <script src="./assets/js/test.js"></script>
+    <script src="./assets/js/script.js"></script>
+    <!--<script src="./assets/js/test.js"></script>-->
 </body>
 </html>
