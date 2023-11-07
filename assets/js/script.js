@@ -127,32 +127,72 @@ function getWeather() { //This function takes the lat and lon of the last and us
                 }
             }
 
+            //Declarations for the UL's
+            aDay=document.querySelector("#aDay");
+            bDay=document.querySelector("#bDay");
+            fDay=document.querySelector("#fDay");
+            dDay=document.querySelector("#dDay");
+            eDay=document.querySelector("#eDay");
+
             //setting variables for each day.
+
+            //First Day - aDay
             aTemp=bundledForecasts[1][0].main.temp;
             aWind=bundledForecasts[1][0].wind.speed
             aHumid=bundledForecasts[1][0].main.humidity;
             aIcon=bundledForecasts[1][0].weather[0].icon;
             
-
+            //Second day - bDay
             bTemp=bundledForecasts[2][0].main.temp;
             bWind=bundledForecasts[2][0].wind.speed
             bHumid=bundledForecasts[2][0].main.humidity;
             bIcon=bundledForecasts[2][0].weather[0].icon;
 
+            //Third day - fDay
             fTemp=bundledForecasts[3][0].main.temp;
             fWind=bundledForecasts[3][0].wind.speed;
             fHumid=bundledForecasts[3][0].main.humidity;
             fIcon=bundledForecasts[3][0].weather[0].icon;
 
+            //Fourth day - dDay
             dTemp=bundledForecasts[4][0].main.temp;
             dWind=bundledForecasts[4][0].wind.speed;
             dHumid=bundledForecasts[4][0].main.humidity;
             dIcon=bundledForecasts[4][0].weather[0].icon;
 
+            //Fith day - eDay
             eTemp=bundledForecasts[5][0].main.temp;
             eWind=bundledForecasts[5][0].wind.speed
             eHumid=bundledForecasts[5][0].main.humidity;
             eIcon=bundledForecasts[5][0].weather[0].icon;
+
+            //Applies five day info to each day to show on HTML.
+
+            aTemp.innerHTML= `Temp: ${aTemp} °F`;
+            aWind.innerHTML= `Wind Speed: ${aWind}mph`;
+            aHumid.innerHTML= `Humidity: ${aHumid}%`;
+            aweatherIcon.src = `https://openweathermap.org/img/wn/${aIcon}@2x.png`
+
+            bTemp.innerHTML= `Temp: ${bTemp} °F`;
+            bWind.innerHTML= `Wind Speed: ${bWind}mph`;
+            bHumid.innerHTML= `Humidity: ${bHumid}%`;
+            bweatherIcon.src = `https://openweathermap.org/img/wn/${bIcon}@2x.png`
+
+            fTemp.innerHTML= `Temp: ${fTemp} °F`;
+            fWind.innerHTML= `Wind Speed: ${fWind}mph`;
+            fHumid.innerHTML= `Humidity: ${fHumid}%`;
+            fweatherIcon.src = `https://openweathermap.org/img/wn/${fIcon}@2x.png`
+
+            dTemp.innerHTML= `Temp: ${dTemp} °F`;
+            dWind.innerHTML= `Wind Speed: ${dWind}mph`;
+            dHumid.innerHTML= `Humidity: ${dHumid}%`;
+            dweatherIcon.src = `https://openweathermap.org/img/wn/${dIcon}@2x.png`
+
+            eTemp.innerHTML= `Temp: ${eTemp} °F`;
+            eWind.innerHTML= `Wind Speed: ${eWind}mph`;
+            eHumid.innerHTML= `Humidity: ${eHumid}%`;
+            eweatherIcon.src = `https://openweathermap.org/img/wn/${eIcon}@2x.png`
+
 
             console.log("Drive: ", aWind);
             console.log("Icon src: ", weatherIcon.src);
@@ -221,5 +261,5 @@ searchBtnLg.addEventListener('click', function (){
 }
 );
 
-//localStorage.clear();
+localStorage.clear();
 //Used to clear storage for ease of working with code.
