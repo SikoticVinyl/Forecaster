@@ -141,30 +141,36 @@ function getWeather() { //This function takes the lat and lon of the last and us
             aWind=bundledForecasts[1][0].wind.speed
             aHumid=bundledForecasts[1][0].main.humidity;
             aIcon=bundledForecasts[1][0].weather[0].icon;
+            console.log("aDay: Temp: "+aTemp+" Wind: "+aWind+" Humid: "+aHumid);
+
             
             //Second day - bDay
             bTemp=bundledForecasts[2][0].main.temp;
             bWind=bundledForecasts[2][0].wind.speed
             bHumid=bundledForecasts[2][0].main.humidity;
             bIcon=bundledForecasts[2][0].weather[0].icon;
+            console.log("bDay: Temp: "+bTemp+" Wind: "+bWind+" Humid: "+bHumid);
 
             //Third day - fDay
             fTemp=bundledForecasts[3][0].main.temp;
             fWind=bundledForecasts[3][0].wind.speed;
             fHumid=bundledForecasts[3][0].main.humidity;
             fIcon=bundledForecasts[3][0].weather[0].icon;
+            console.log("fDay: Temp: "+fTemp+" Wind: "+fWind+" Humid: "+fHumid);
 
             //Fourth day - dDay
             dTemp=bundledForecasts[4][0].main.temp;
             dWind=bundledForecasts[4][0].wind.speed;
             dHumid=bundledForecasts[4][0].main.humidity;
             dIcon=bundledForecasts[4][0].weather[0].icon;
+            console.log("dDay: Temp: "+dTemp+" Wind: "+dWind+" Humid: "+dHumid);
 
             //Fith day - eDay
             eTemp=bundledForecasts[5][0].main.temp;
             eWind=bundledForecasts[5][0].wind.speed
             eHumid=bundledForecasts[5][0].main.humidity;
             eIcon=bundledForecasts[5][0].weather[0].icon;
+            console.log("eDay: Temp: "+eTemp+" Wind: "+eWind+" Humid: "+eHumid);
 
             //Applies five day info to each day to show on HTML.
 
