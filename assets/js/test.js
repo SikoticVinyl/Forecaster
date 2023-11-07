@@ -1,86 +1,74 @@
-//global declarations
+// Global declarations
 const recents = document.querySelector('.recents');
 const cityList = document.querySelector(".savedCity");
 const fiveDay = document.querySelector(".fiveDay");
 const nowWeather = document.querySelector(".searchedCity");
 
-//Search Declarations
+// Search Declarations
 const searchBtnNav = document.querySelector('#searchBtnNav');
 const searchBtnLg = document.querySelector('#searchBtnLG');
 const userInputNav = document.querySelector('#citySNav');
 const userInputLg = document.querySelector('#citySLG');
 
-//declarations to display info
+// Declarations to display info
 const cCity = document.querySelector("#cCity");
-const cTemp= document.querySelector(".cTemp");
-const cWind= document.querySelector(".cWind");
-const cHumid= document.querySelector(".cHumid");
+const cTemp = document.querySelector(".cTemp");
+const cWind = document.querySelector(".cWind");
+const cHumid = document.querySelector(".cHumid");
 
-const apiKey="dd470cbf4f5da7a6f9f1f03c52320e07";
+const apiKey = "dd470cbf4f5da7a6f9f1f03c52320e07";
 
-//declarations for geo API
-let cityName=""
-let lat=""
-let lon=""
-//declarations for weather API
-let tTemp=""
-let tWind=""
-let tHumid=""
-let tIcon=""
-let tId=""
+// Declarations for geo API
+let cityName = "";
+let lat = "";
+let lon = "";
+// Declarations for weather API
+let tTemp = "";
+let tWind = "";
+let tHumid = "";
+let tIcon = "";
+let tId = "";
 
-//dayJS Declarations
-const navTime=document.querySelector(".time");
-const today=dayjs().format('MM/DD/YYYY')
-const time=dayjs().format('hh:mm a')
+// dayJS Declarations
+const navTime = document.querySelector(".time");
+const today = dayjs().format('MM/DD/YYYY');
+const time = dayjs().format('hh:mm a');
 
-navTime.innerHTML=time;
+navTime.innerHTML = time;
 
-function searchCity(){ //This function serves to get the lat and lon of the searched city. 
-
-    //Because of the two search bars for the styling had to plug them in as one or the other.
+function searchCity() {
+    // Check which input field contains the city name.
     if (userInputNav.value) {
         cityName = userInputNav.value;
     } else if (userInputLg.value) {
         cityName = userInputLg.value;
     }
-    console.log('User city name: ', cityName);
 
-    cCity.textContent = cityName + "  " + today
+    cCity.textContent = cityName + "  " + today;
 
-
-    const gUrl=`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`; //API URL
-    console.log("URL: ", gUrl);
-
-    fetch(gUrl) //The fetch request
-
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok.')
-        }
+    const gUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&appid=${apiKey}`;
+    fetch(gUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok.');
+            }
             return response.json();
-    })
-    .then(data => {
-        console.log('API Response Data Location:', data);
+        })
+        .then(data => {
+            if (data) {
+                lat = data[0].lat;
+                lon = data[0].lon;
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error: ', error);
+        });
+}
 
-        if (data) {
-            lat=data[0].lat
-            console.log("lat: ", lat);
-            lon=data[0].lon
-            console.log("lon: ", lon);
-        }
-    })
-    .catch(error => {
-        console.error('Fetch error: ', error);
-    });
-};
-
+let groupedForecasts={}; //Brings groupedForecasts to global scope to be used by next functions.
 //This function takes the lat and lon of the last and uses it to get weather information
 function getWeather() {
-    
     const url = `http://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
-    const weatherIcon = document.querySelector(".weatherIcon");
-
     fetch(url)
         .then(response => {
             if (!response.ok) {
@@ -89,8 +77,6 @@ function getWeather() {
             return response.json();
         })
         .then(data => {
-            console.log('Weather Response: ', data);
-
             if (data) {
                 const dailyForecast = data.list;
 
@@ -130,7 +116,37 @@ function getWeather() {
         });
 }
 
+function displayWeatherInfo(groupedForecasts) {
+    // Get today's date
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const todayString = today.toISOString().split('T')[0];
 
+    // Define an array to store the next five dates
+    const nextFiveDays = [];
+
+    // Iterate over the next five days and push them to the "nextFiveDays" array
+    for (let i = 1; i <= 5; i++) {
+        const nextDate = new Date(today);
+        nextDate.setDate(today.getDate() + i);
+        const nextDateString = nextDate.toISOString().split('T')[0];
+        nextFiveDays.push(nextDateString);
+    }
+
+    // Display today's weather in the "todayWeather" section
+    if (groupedForecasts[todayString] && groupedForecasts[todayString].length > 0) {
+        const todayWeather = groupedForecasts[todayString][0]; // Assuming the first entry is for today's weather
+        displayWeather(todayWeather, 'todayWeather');
+    }
+
+    // Display the next five days' weather
+    nextFiveDays.forEach((date, index) => {
+        if (groupedForecasts[date] && groupedForecasts[date].length > 0) {
+            const nextDayWeather = groupedForecasts[date][0]; // Assuming the first entry is for the next day
+            displayWeather(nextDayWeather, `Day ${index + 1}`);
+        }
+    });
+}
 
 
 function storeInfo() {
