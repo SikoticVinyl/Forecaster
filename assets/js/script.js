@@ -66,6 +66,16 @@ function storeInfo(cityName, lat, lon) {
     localStorage.setItem("cityData", JSON.stringify(existingData));
 }
 
+// Function to get and display stored city buttons
+function getStoredInfo() {
+    const storedCityData = JSON.parse(localStorage.getItem("cityData")) || [];
+
+    // Loop through the stored city data and create buttons for each city
+    for (const cityData of storedCityData) {
+        createCityButton(cityData.cityName, cityData.lat, cityData.lon, cityList);
+    }
+}
+
 function handleCityButtonClick(cityName) {
     const storedCityData = localStorage.getItem("cityData");
     if (storedCityData) {
