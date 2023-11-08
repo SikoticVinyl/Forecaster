@@ -20,13 +20,62 @@ let cityName = "";
 let lat = "";
 let lon = "";
 
-
 // dayJS Declarations
 const navTime = document.querySelector(".time");
 const today = dayjs().format('MM/DD/YYYY');
 const time = dayjs().format('hh:mm a');
 
 navTime.innerHTML = time;
+
+// Function to create a city button and attach a click event listener
+function createCityButton(cityName, lat, lon, container) {
+    const button = document.createElement("button");
+    button.textContent = cityName;
+    button.className = "bg-slate-600 text-white p-2 px-4 rounded-md m-2";
+
+    button.addEventListener("click", function () {
+        handleCityButtonClick(cityName); // Call the function to handle the button click
+    });
+
+    container.appendChild(button);
+}
+
+// Function to store city data in local storage
+function storeInfo(cityName, lat, lon) {
+    // Retrieve any existing city data from local storage
+    const existingData = JSON.parse(localStorage.getItem("cityData")) || [];
+
+    // Create an object to store the current city information
+    const currentCityData = {
+        cityName: cityName,
+        lat: lat,
+        lon: lon,
+    };
+
+    // Check if the city data already exists in storage
+    const existingCityIndex = existingData.findIndex(data => data.cityName === cityName);
+    if (existingCityIndex !== -1) {
+        // Update the existing city data
+        existingData[existingCityIndex] = currentCityData;
+    } else {
+        // Add the current city data to the existing data array
+        existingData.push(currentCityData);
+    }
+
+    // Store the updated data in local storage
+    localStorage.setItem("cityData", JSON.stringify(existingData));
+}
+
+function handleCityButtonClick(cityName) {
+    const storedCityData = localStorage.getItem("cityData");
+    if (storedCityData) {
+        const cityData = JSON.parse(storedCityData);
+        const selectedCity = cityData.find(data => data.cityName === cityName);
+        if (selectedCity) {
+            getWeather(selectedCity.cityName, selectedCity.lat, selectedCity.lon);
+        }
+    }
+}
 
 function searchCity() {
     // Check which input field contains the city name.
@@ -50,6 +99,17 @@ function searchCity() {
             if (data) {
                 lat = data[0].lat;
                 lon = data[0].lon;
+
+                // Call storeInfo to store the city data in local storage
+                storeInfo(cityName, lat, lon);
+
+                // Create a button for the recent searches section if it doesn't exist
+                if (!hasCityButton(cityName, cityList)) {
+                    createCityButton(cityName, lat, lon, cityList);
+                }
+
+                // Call getWeather after storing city data
+                getWeather(cityName, lat, lon);
             }
         })
         .catch(error => {
@@ -57,8 +117,19 @@ function searchCity() {
         });
 }
 
+// Function to check if a button for the city already exists
+function hasCityButton(cityName, container) {
+    const buttons = container.querySelectorAll("button");
+    for (const button of buttons) {
+        if (button.textContent === cityName) {
+            return true; // City button already exists
+        }
+    }
+    return false; // City button does not exist
+}
+
 //This function takes the lat and lon of the last and uses it to get weather information
-function getWeather() {
+function getWeather(cityName, lat, lon) {
     // Clears the content of the containers before adding new information
     for (let i = 0; i < 6; i++) {
         const containerId = i === 0 ? "todayWeather" : `Day${i}`;
@@ -143,77 +214,14 @@ function getWeather() {
         });
 };
 
-function storeInfo() {
-    // Create an array to hold the stored information
-    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
-
-    // Create an object to store the current information
-    let currentInfo = {
-        cityName: cityName,
-        lat: lat,
-        lon: lon,
-    };
-
-    // Push the current information object into the array
-    storedInfoArray.push(currentInfo);
-
-    // Store the updated array in local storage
-    localStorage.setItem("cInfo", JSON.stringify(storedInfoArray));
-
-    // Create a button for the stored city
-    const button = createCityButton(currentInfo.cityName);
-
-    // Append the button to the savedCity list
-    const savedCityList = document.querySelector(".savedCity");
-    const li = document.createElement("li");
-    li.appendChild(button);
-    savedCityList.appendChild(li);
-}
-
-function getStoredInfo() {
-    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
-
-    storedInfoArray.forEach(storedInfo => {
-        // Get location information from stored data
-        const storedCityName = storedInfo.cityName;
-        const storedLat = storedInfo.lat;
-        const storedLon = storedInfo.lon;
-
-        // Create a button for the stored city with its specific data
-        const button = createCityButton(storedCityName, storedLat, storedLon);
-
-        // Append the button to the savedCity list
-        const savedCityList = document.querySelector(".savedCity");
-        const li = document.createElement("li");
-        li.appendChild(button);
-        savedCityList.appendChild(li);
-    });
-}
-
-function createCityButton(cityName, lat, lon) {
-    const button = document.createElement("button");
-    button.textContent = cityName;
-    button.className = "bg-slate-600 text-white p-2 px-4 rounded-md m-2";
-    // Add an event listener to the button to handle clicks
-    button.addEventListener("click", function () {
-        // When the button is clicked, call getWeather with the specific lat and lon
-        getWeather(lat, lon);
-    });
-
-    return button;
-}
-
 //Search button for display in the nav bar
 searchBtnNav.addEventListener('click', function (){
     console.log("Button clicked");
     nowWeather.classList.remove("hidden");
     fiveDay.classList.remove("hidden");
     recents.classList.remove("hidden");
-    searchCity()
-    setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
-}
-);
+    searchCity();
+});
 
 //Search Button for display on regular / large screens
 searchBtnLg.addEventListener('click', function (){
@@ -221,11 +229,8 @@ searchBtnLg.addEventListener('click', function (){
     nowWeather.classList.remove("hidden");
     fiveDay.classList.remove("hidden");
     recents.classList.remove("hidden");
-    searchCity()
-    setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
-}
-);
+    searchCity();
+});
 
-localStorage.clear();
-//Used to clear storage for ease of working with code.
+// Load stored city buttons
+getStoredInfo();
