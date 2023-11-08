@@ -31,7 +31,7 @@ navTime.innerHTML = time;
 // Function to store city data in local storage
 function storeInfo(cityName, lat, lon) {
     // Retrieve any existing city data from local storage
-    const existingData = getLocalStorage("cityData") || [];
+    const existingData = JSON.parse(localStorage.getItem("cityData")) || [];
 
     // Create an object to store the current city information
     const currentCityData = {
@@ -44,15 +44,8 @@ function storeInfo(cityName, lat, lon) {
     existingData.push(currentCityData);
 
     // Store the updated data in local storage
-    setLocalStorage("cityData", existingData);
+    localStorage.setItem("cityData", JSON.stringify(existingData));
 }
-
-// Example usage (replace with actual values):
-const cityName = "New York";
-const latitude = 40.7128;
-const longitude = -74.0060;
-
-storeCityData(cityName, latitude, longitude);
 
 function searchCity() {
     // Check which input field contains the city name.
@@ -76,6 +69,12 @@ function searchCity() {
             if (data) {
                 lat = data[0].lat;
                 lon = data[0].lon;
+
+                // Call storeInfo to store the city data in local storage
+                storeInfo(cityName, lat, lon);
+
+                // Call getWeather after storing city data
+                getWeather(cityName, lat, lon);
             }
         })
         .catch(error => {
@@ -177,8 +176,6 @@ searchBtnNav.addEventListener('click', function (){
     fiveDay.classList.remove("hidden");
     recents.classList.remove("hidden");
     searchCity()
-    setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
 }
 );
 
@@ -189,8 +186,6 @@ searchBtnLg.addEventListener('click', function (){
     fiveDay.classList.remove("hidden");
     recents.classList.remove("hidden");
     searchCity()
-    setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
 }
 );
 
