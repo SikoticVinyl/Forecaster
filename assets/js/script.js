@@ -10,11 +10,8 @@ const searchBtnLg = document.querySelector('#searchBtnLG');
 const userInputNav = document.querySelector('#citySNav');
 const userInputLg = document.querySelector('#citySLG');
 
-// Declarations to display info
+// Declaration to display info
 const cCity = document.querySelector("#cCity");
-const DayTT = document.querySelector("#DayTT");
-const DayTW = document.querySelector("#DayTW");
-const DayTH = document.querySelector("#DayTH");
 
 const apiKey = "dd470cbf4f5da7a6f9f1f03c52320e07";
 
@@ -62,8 +59,13 @@ function searchCity() {
 
 //This function takes the lat and lon of the last and uses it to get weather information
 function getWeather() {
+    // Clears the content of the containers before adding new information
+    for (let i = 0; i < 6; i++) {
+        const containerId = i === 0 ? "todayWeather" : `Day${i}`;
+        document.querySelector(`#${containerId}`).innerHTML = ""; // Clears the container
+    }
+
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=Imperial`;
-    const weatherIcon = document.querySelector(".weatherIcon");
 
     fetch(url)
         .then(response => {
@@ -93,11 +95,10 @@ function getWeather() {
 
                 // Get today's date
                 const today = new Date();
-                today.setHours(0, 0, 0, 0);
                 const todayString = today.toISOString().split('T')[0];
 
                 // Iterate over the next five days
-                for (let i = 1; i < 5; i++) {
+                for (let i = 0; i < 6; i++) {
                     const nextDate = new Date(today);
                     nextDate.setDate(today.getDate() + i);
                     const nextDateString = nextDate.toISOString().split('T')[0];
@@ -142,7 +143,6 @@ function getWeather() {
         });
 };
 
-
 function storeInfo() {
     // Create an array to hold the stored information
     let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
@@ -150,10 +150,8 @@ function storeInfo() {
     // Create an object to store the current information
     let currentInfo = {
         cityName: cityName,
-        temperature: tTemp,
-        windSpeed: tWind,
-        humidity: tHumid,
-        weatherId: tId
+        lat: lat,
+        lon: lon,
     };
 
     // Push the current information object into the array
@@ -164,17 +162,25 @@ function storeInfo() {
 }
 
 function getStoredInfo() {
-
     let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
 
-    for (let i = 0; i < storedInfoArray.length; i++) {
-        console.log("City Name:", storedInfoArray[i].cityName);
-        console.log("Temperature:", storedInfoArray[i].temperature);
-        console.log("Wind Speed:", storedInfoArray[i].windSpeed);
-        console.log("Humidity:", storedInfoArray[i].humidity);
-        console.log("Weather ID:", storedInfoArray[i].weatherId);
-    }
+    storedInfoArray.forEach(storedInfo => {
+        // Get location information from stored data
+        const storedCityName = storedInfo.cityName;
+        const storedLat = storedInfo.lat;
+        const storedLon = storedInfo.lon;
+
+        // Update the global variables with stored location data
+        cityName = storedCityName;
+        lat = storedLat;
+        lon = storedLon;
+
+        // Re-run the weather check for the stored location
+        getWeather();
+    });
 }
+
+
 
 //Search button for display in the nav bar
 searchBtnNav.addEventListener('click', function (){
@@ -184,7 +190,7 @@ searchBtnNav.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
+    setTimeout(storeInfo, 1000);
 }
 );
 
@@ -196,7 +202,7 @@ searchBtnLg.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 2000);
+    setTimeout(storeInfo, 1000);
 }
 );
 
