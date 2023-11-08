@@ -4,13 +4,13 @@
     <meta charset="utf-8">
     <title>Forecaster</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <header class="py-4">
+    <header class="py-4 bg-blue-950">
         <div class="flex justify-center justify-around items-center">
-            <h1 class="text-2xl text-slate-700">Forecaster</h1>
-            <p class="time text-2xl text-slate-700 ml-4"></p>
+            <h1 class="text-2xl text-white decoration-4">Forecaster</h1>
+            <p class="time text-2xl text-slate-700 ml-4 text-white"></p>
             <div class="lg:hidden ml-auto">
                 <input id="citySNav" class="border rounded-md p-2" type="search" placeholder="Search a city">
                 <button id="searchBtnNav" class="bg-blue-500 text-white p-2 rounded-md lg:w-1/4">Search</button>
@@ -19,67 +19,64 @@
     </header>
 
     <div class="lg:flex justify-between">
-        <section class="lg:w-1/4 p-4 border-r border-slate-300">
+        <section class="flex-shrink-0 w-auto lg:w-1/4 p-4 border-r border-slate-300">
             <div class="mb-4">
                 <div class="hidden lg:flex flex-col">
-                    <input id="citySLG" class=" border rounded-md p-2" type="search" placeholder="Search a city">
-                    <button id="searchBtnLG" class="bg-blue-500 text-white p-2 rounded-md mb-4 w-auto">Search</button>
+                    <input id="citySLG" class="w-full lg:w-auto border rounded-md p-2 mb-2 mt-4" type="search" placeholder="Search a city">
+                    <button id="searchBtnLG" class="w-full lg:w-auto bg-blue-500 text-white p-2 rounded-md mb-4">Search</button>
                 </div>
             </div>
         </section>
 
         <div class="w-full lg:w-3/4 p-4">
-    <section class="searchedCity border p-4 mb-4 hidden">
-        <div class="flex flex-col items-center space-y-4">
-            <p id="cCity" class="text-2xl"></p>
-            <img class="weatherIcon" src="" placeholder="icon">
-            <ul id="todayWeather" class="weather-details flex space-x-4">
-                <li id="DayTT"></li>
-                <li id="DayTW"></li> 
-                <li id="DayTH"></li>     
-            </ul>
-        </div>
-    </section>
+            <section class="searchedCity border p-4 mb-4 hidden">
+                <div class="flex flex-col items-center space-y-4">
+                    <p id="cCity" class="text-2xl"></p>
+                    <img class="weatherIcon" src="" placeholder="icon">
+                    <ul id="todayWeather" class="weather-details flex space-x-4">
+                        <li id="DayTT"></li>
+                        <li id="DayTW"></li> 
+                        <li id="DayTH"></li>     
+                    </ul>
+                </div>
             </section>
 
             <section class="fiveDay hidden">
+                <h2 class="font-bold text-xl my-3">5-Day Forecast:<h2>
                 <div class="flex flex-auto justify-between">
-            <!--<div>
-                <img class="weatherIcon" id "weatherIcon" src="" alt="Weather Icon">
-            </div>-->
-            <div class="flex flex-auto justify-between">
-                <ul id="Day1" class="weather-details">
-                    <img class="" src="" placeholder="icon">
-                </ul>
-                <ul id="Day2" class="weather-details">
-                    <img class="" src="" placeholder="icon">
-                </ul>
-                <ul id="Day3" class="weather-details">
-                    <img class="" src="" placeholder="icon">
-                </ul>
-                <ul id="Day4" class="weather-details">
-                    <img class="" src="" placeholder="icon">
-                </ul>
-                <ul id="Day5" class="weather-details">
-                    <img class="" src="" placeholder="icon">
+                <div class="flex flex-auto justify-between">
+                    <ul id="Day1" class="weather-details bg-slate-600 text-white border-solid border-black p-2">
+                        <img class="" src="" placeholder="icon">
+                    </ul>
+                    <ul id="Day2" class="weather-details bg-slate-600 text-white border-solid border-black p-2">
+                        <img class="" src="" placeholder="icon">
+                    </ul>
+                    <ul id="Day3" class="weather-details bg-slate-600 text-white border-solid border-black p-2">
+                        <img class="" src="" placeholder="icon">
+                    </ul>
+                    <ul id="Day4" class="weather-details bg-slate-600 text-white border-solid border-black p-2">
+                        <img class="" src="" placeholder="icon">
+                    </ul>
+                    <ul id="Day5" class="weather-details bg-slate-600 text-white border-solid border-black p-2">
+                        <img class="" src="" placeholder="icon">
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+
+  <div class="flex">
+        <div class="text-center sm:w-1/5 sm:mx-auto recents hidden lg:mr-auto lg:ml-8 lg:pl-1">
+            <div class="border border-slate-500 p-4 rounded-lg mb-4 max-w-sm mx-0">
+                <h2 class="text-lg font-semibold">Recent Searches</h2>
+                <ul class="savedCity flex-col">
                 </ul>
             </div>
-        </section>
-    </div>
-</div>
-
-    <div class="p-4 lg:hidden hidden recents text-center">
-        <div class="border border-slate-500 p-4 rounded-lg mb-4 max-w-sm mx-auto">
-            <h2 class="text-lg font-semibold">Recent Locations</h2>
-            <ul class="savedCity flex-col">
-                <li class="mb-2">Save search placeholder</li>
-            </ul>
         </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script>dayjs().format()</script>
     <script src="./assets/js/script.js"></script>
-    <!--<script src="./assets/js/test.js"></script>-->
 </body>
 </html>
