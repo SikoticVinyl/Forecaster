@@ -179,29 +179,25 @@ function getStoredInfo() {
         const storedLat = storedInfo.lat;
         const storedLon = storedInfo.lon;
 
-        // Update the global variables with stored location data
-        cityName = storedCityName;
-        lat = storedLat;
-        lon = storedLon;
+        // Create a button for the stored city with its specific data
+        const button = createCityButton(storedCityName, storedLat, storedLon);
 
-        // Re-run the weather check for the stored location
-        getWeather();
+        // Append the button to the savedCity list
+        const savedCityList = document.querySelector(".savedCity");
+        const li = document.createElement("li");
+        li.appendChild(button);
+        savedCityList.appendChild(li);
     });
 }
 
-function createCityButton(cityName) {
+function createCityButton(cityName, lat, lon) {
     const button = document.createElement("button");
     button.textContent = cityName;
 
     // Add an event listener to the button to handle clicks
     button.addEventListener("click", function () {
-        // When the button is clicked, set the global variables (cityName, lat, lon) to the stored city's data
-        cityName = storedCityName;
-        lat = storedLat;
-        lon = storedLon;
-
-    
-        getStoredInfo;
+        // When the button is clicked, call getWeather with the specific lat and lon
+        getWeather(lat, lon);
     });
 
     return button;
