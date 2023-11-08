@@ -159,6 +159,15 @@ function storeInfo() {
 
     // Store the updated array in local storage
     localStorage.setItem("cInfo", JSON.stringify(storedInfoArray));
+
+    // Create a button for the stored city
+    const button = createCityButton(currentInfo.cityName);
+
+    // Append the button to the savedCity list
+    const savedCityList = document.querySelector(".savedCity");
+    const li = document.createElement("li");
+    li.appendChild(button);
+    savedCityList.appendChild(li);
 }
 
 function getStoredInfo() {
@@ -180,7 +189,23 @@ function getStoredInfo() {
     });
 }
 
+function createCityButton(cityName) {
+    const button = document.createElement("button");
+    button.textContent = cityName;
 
+    // Add an event listener to the button to handle clicks
+    button.addEventListener("click", function () {
+        // When the button is clicked, set the global variables (cityName, lat, lon) to the stored city's data
+        cityName = storedCityName;
+        lat = storedLat;
+        lon = storedLon;
+
+    
+        getStoredInfo;
+    });
+
+    return button;
+}
 
 //Search button for display in the nav bar
 searchBtnNav.addEventListener('click', function (){
@@ -190,7 +215,7 @@ searchBtnNav.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
 
@@ -202,7 +227,7 @@ searchBtnLg.addEventListener('click', function (){
     recents.classList.remove("hidden");
     searchCity()
     setTimeout(getWeather, 1000);
-    setTimeout(storeInfo, 1000);
+    setTimeout(storeInfo, 2000);
 }
 );
 
