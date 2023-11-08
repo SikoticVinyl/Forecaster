@@ -193,7 +193,7 @@ function getStoredInfo() {
 function createCityButton(cityName, lat, lon) {
     const button = document.createElement("button");
     button.textContent = cityName;
-
+    button.className = "bg-slate-600 text-white p-2 px-4 rounded-md m-2";
     // Add an event listener to the button to handle clicks
     button.addEventListener("click", function () {
         // When the button is clicked, call getWeather with the specific lat and lon
