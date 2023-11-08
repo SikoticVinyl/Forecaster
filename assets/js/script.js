@@ -143,65 +143,6 @@ function getWeather() {
         });
 };
 
-function storeInfo() {
-    // Create an array to hold the stored information
-    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
-
-    // Create an object to store the current information
-    let currentInfo = {
-        cityName: cityName,
-        lat: lat,
-        lon: lon,
-    };
-
-    // Push the current information object into the array
-    storedInfoArray.push(currentInfo);
-
-    // Store the updated array in local storage
-    localStorage.setItem("cInfo", JSON.stringify(storedInfoArray));
-
-    // Create a button for the stored city
-    const button = createCityButton(currentInfo.cityName);
-
-    // Append the button to the savedCity list
-    const savedCityList = document.querySelector(".savedCity");
-    const li = document.createElement("li");
-    li.appendChild(button);
-    savedCityList.appendChild(li);
-}
-
-function getStoredInfo() {
-    let storedInfoArray = JSON.parse(localStorage.getItem("cInfo")) || [];
-
-    storedInfoArray.forEach(storedInfo => {
-        // Get location information from stored data
-        const storedCityName = storedInfo.cityName;
-        const storedLat = storedInfo.lat;
-        const storedLon = storedInfo.lon;
-
-        // Create a button for the stored city with its specific data
-        const button = createCityButton(storedCityName, storedLat, storedLon);
-
-        // Append the button to the savedCity list
-        const savedCityList = document.querySelector(".savedCity");
-        const li = document.createElement("li");
-        li.appendChild(button);
-        savedCityList.appendChild(li);
-    });
-}
-
-function createCityButton(cityName, lat, lon) {
-    const button = document.createElement("button");
-    button.textContent = cityName;
-    button.className = "bg-slate-600 text-white p-2 px-4 rounded-md m-2";
-    // Add an event listener to the button to handle clicks
-    button.addEventListener("click", function () {
-        // When the button is clicked, call getWeather with the specific lat and lon
-        getWeather(lat, lon);
-    });
-
-    return button;
-}
 
 //Search button for display in the nav bar
 searchBtnNav.addEventListener('click', function (){
