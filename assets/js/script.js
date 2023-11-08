@@ -28,6 +28,32 @@ const time = dayjs().format('hh:mm a');
 
 navTime.innerHTML = time;
 
+// Function to store city data in local storage
+function storeInfo(cityName, lat, lon) {
+    // Retrieve any existing city data from local storage
+    const existingData = getLocalStorage("cityData") || [];
+
+    // Create an object to store the current city information
+    const currentCityData = {
+        cityName: cityName,
+        lat: lat,
+        lon: lon,
+    };
+
+    // Add the current city data to the existing data array
+    existingData.push(currentCityData);
+
+    // Store the updated data in local storage
+    setLocalStorage("cityData", existingData);
+}
+
+// Example usage (replace with actual values):
+const cityName = "New York";
+const latitude = 40.7128;
+const longitude = -74.0060;
+
+storeCityData(cityName, latitude, longitude);
+
 function searchCity() {
     // Check which input field contains the city name.
     if (userInputNav.value) {
